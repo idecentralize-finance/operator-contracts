@@ -1,0 +1,34 @@
+name: Contracts CI
+
+on:
+  push:
+    branches: [develop]
+    paths-ignore:
+      - "**/README.md"
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: solidity-runner
+    env:
+      GOPRIVATE: github.com/idecentralize.finance/*
+      GH_ACCESS_TOKEN: ${{ secrets.BUILDBOT_PERSONAL_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.BUILDBOT_PERSONAL_TOKEN }}
+          submodules: recursive
+
+      - name: Setup local Git user
+        run: |
+          git config user.name idecentralize-buildbot
+          git config user.email buildbot@github.com
+      - name: Configure access to private modules
+        run: git config --global url.https://$GH_ACCESS_TOKEN@github.com/.insteadOf https://github.com/
+
+      - name: Install operator prerequisites
+        run: cd contracts && npm install
+
+      - name: Create ABIs
+        run: sh .github/scripts/update_abis.sh
+

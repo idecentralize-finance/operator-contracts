@@ -1,0 +1,29 @@
+{
+  "name": "operator-contracts",
+  "version": "1.0.0",
+  "description": "smart contract for the operator",
+  "main": "hardhat.jonfig.js",
+  "scripts": {
+    "test": "npx hardhat test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idecentralize-finance/Operator-contracts.git"
+  },
+  "keywords": [
+    "smart-contract",
+    "trading",
+    "bot"
+  ],
+  "author": "Ian Dorion",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/idecentralize-finance/Operator-contracts/issues"
+  },
+  "homepage": "https://github.com/idecentralize-finance/Operator-contracts#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.7.3",
+    "dotenv": "^16.0.3",
+    "hardhat": "^2.12.0"
+  }
+}
