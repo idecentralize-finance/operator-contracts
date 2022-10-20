@@ -6,9 +6,9 @@ This is the Operator Contract:
 
 **/
 
-import "./FlashLoanReceiverBase.sol";
-import "./ILendingPoolAddressesProvider.sol";
-import "./IFlashLoanReceiver.sol";
+import "./aave/FlashLoanReceiverBase.sol";
+import "./aave/ILendingPoolAddressesProvider.sol";
+import "./aave/IFlashLoanReceiver.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "../node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol";
 

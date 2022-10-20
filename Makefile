@@ -13,9 +13,8 @@ SMARTCONTRACT_BIN_DIR := tmp/smartcontracts-bin
 SMARTCONTRACT_GOLANG_DIR := go
 SOLIDITY_DIR := ./contracts
 
-# The .go filename must be named exactly like the <saga-contracts repo>/contacts/.sol filename except for the extension.
 
-SMARTCONTRACTS_IN_GOLANG := Operator.go
+SMARTCONTRACTS_IN_GOLANG := Operator.go IERC20.go
 
 
 #
@@ -54,4 +53,4 @@ $(SMARTCONTRACTS_IN_GOLANG):
 	solc --abi $(call f_get_solidity_filepath, $@) -o $(call f_get_abi_dir, $@) --overwrite
 	solc --bin $(call f_get_solidity_filepath, $@) -o $(call f_get_bin_dir, $@) --overwrite
 	abigen --abi=$(call f_get_abi_filename, $@) --bin=$(call f_get_bin_filename, $@) \
-		   --pkg=$(call f_get_packagename, $@)  --out=$(call f_get_out_filename, $@)
+		   --pkg=$(call f_get_packagename, $@)  --out=$(call f_get_out_filename, $@) \
