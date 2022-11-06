@@ -14,7 +14,7 @@ SMARTCONTRACT_GOLANG_DIR := go
 SOLIDITY_DIR := ./contracts
 
 
-SMARTCONTRACTS_IN_GOLANG := Operator.go IERC20.go
+SMARTCONTRACTS_IN_GOLANG := Operator.go IERC20.go IUniswapV2Router01.go
 
 
 #
