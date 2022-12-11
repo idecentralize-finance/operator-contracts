@@ -62,12 +62,14 @@ contract Operator is FlashLoanReceiverBase {
         lendingPoolAddr = provider.getLendingPool();
     }
 
-    /// @notice this function can only be called by the aave lending pool
-    /// @param assets an array of all the asset's you borrowed.
-    /// @param amounts array of amount's borrowed
-    /// @param premiums the fees you have to pay back for each borrowed asset
-    /// @param initiator The initiator of the loan
-    /// @param params Your trade sequence that you built(logic)
+    /**
+     @notice this function can only be called by the aave lending pool
+     @param assets an array of all the asset's you borrowed.
+     @param amounts array of amount's borrowed
+     @param premiums the fees you have to pay back for each borrowed asset
+     @param initiator The initiator of the loan
+     @param params Your trade sequence that you built(logic)
+    */
 
     function executeOperation(
         address[] calldata assets,
@@ -77,12 +79,13 @@ contract Operator is FlashLoanReceiverBase {
         bytes calldata params
     ) external virtual override onlyPool returns (bool) {
         Sequencer.TradeSequence memory sequence = _decodeTradeSequence(params);
-        ///@dev at this point we have the funds
+        /// @dev at this point we have the funds
+
+        /// @dev we execute the trade sequence
         for (uint256 tid = 0; tid < sequence.target.length; ++tid) {
             _executeCall(sequence.target[tid], sequence.callData[tid]);
         }
-
-        ///@dev must approve the lender to pull back the borrowed amount + premium
+        /// @dev must approve the lender to pull back the borrowed amount + premium
         for (uint256 lid = 0; lid < assets.length; ++lid) {
             IERC20(assets[lid]).safeApprove(
                 lendingPoolAddr,
@@ -97,11 +100,13 @@ contract Operator is FlashLoanReceiverBase {
         return true;
     }
 
-    /// @notice Call to make a loan with aave
-    /// @param loanData the assets and amounts you want to borrow
-    /// @param tradeData the trade sequence encoded into on bytes argument
-    /// @param useLoan set to true to use flashloans
-    /// @dev 
+    /**
+     @notice Call to make a loan with aave
+     @param loanData the assets and amounts you want to borrow
+     @param tradeData the trade sequence encoded into on bytes argument
+     @param useLoan set to true to use flashloans
+     @dev
+    */
 
     function executeSequence(
         Sequencer.LoanSequence memory loanData,
@@ -127,7 +132,12 @@ contract Operator is FlashLoanReceiverBase {
         }
     }
 
-    ///@notice Run the trade sequence
+    /**
+     @notice Run the trade sequence, the trade sequence is going to a target with encoded data
+     @param _sequence contains the target and the data packed into a struct.
+     each entry is a call made to the target with data
+    */
+
 
     function runSequence(bytes memory _sequence) internal {
         Sequencer.TradeSequence memory sequence = _decodeTradeSequence(
@@ -169,9 +179,9 @@ contract Operator is FlashLoanReceiverBase {
     }
 
     /**
-     * @dev Decodes the information encoded for the trade sequence
-     * @param params the trade sequence parameter
-     * @return TradeSequence struct containing decoded params
+      @dev Decodes the information encoded for the trade sequence
+      @param params the trade sequence parameter
+      @return TradeSequence struct containing decoded params
      */
     function _decodeTradeSequence(bytes memory params)
         internal
@@ -186,9 +196,9 @@ contract Operator is FlashLoanReceiverBase {
     }
 
     /**
-     * @dev Decodes the information encoded for the loan sequence
-     * @param params the trade sequence parameter
-     * @return LoanSequence struct containing decoded params
+      @dev Decodes the information encoded for the loan sequence
+      @param params the trade sequence parameter
+      @return LoanSequence struct containing decoded params
      */
     function _decodeLoanSequence(bytes memory params)
         internal
@@ -203,10 +213,11 @@ contract Operator is FlashLoanReceiverBase {
         return Sequencer.LoanSequence(assets, amounts, modes);
     }
 
-    ///@notice Sends the funds back to the owner
-    ///@param _asset the asset to witthdraw, 0x0000 for ETH/MATIC or other native
-    ///@dev will withdraw the balance
-
+    /**
+      @notice Sends the funds back to the owner
+      @param _asset the asset to withdraw, 0x0000 for ETH/MATIC or other native
+      @dev will withdraw the balance
+     */
     function withdraw(address _asset) external onlyOwner {
         if (_asset == address(0)) {
                  (bool success, ) = payable(owner).call{
