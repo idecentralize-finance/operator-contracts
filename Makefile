@@ -27,7 +27,7 @@ f_get_bin_filename = $(SMARTCONTRACT_BIN_DIR)/$(call f_get_packagename, $(1))/$(
 f_get_out_dir = $(SMARTCONTRACT_GOLANG_DIR)/$(call f_get_packagename, $(1))
 f_get_out_filename = $(SMARTCONTRACT_GOLANG_DIR)/$(call f_get_packagename, $(1))/$(basename $(1)).go
 # e.g given "Marketplace.go" return "marketplace"
-f_get_packagename = $(shell tr '[:upper:]' '[:lower:]' <<< $(basename $(1)))
+f_get_packagename = $(shell tr '[:upper:]' '[:lower:]' <<<$(basename $(1)))
 # e.g given "Marketplace.go" return "contracts/contracts/Marketplace.sol"
 f_get_solidity_filepath = $(addprefix $(SOLIDITY_DIR)/, $(basename $(1)).sol )
 
